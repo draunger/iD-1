@@ -25,10 +25,12 @@ li.list-item-photos.active:after {
 .ideditor[dir='ltr'] .photoviewer {
     margin-left: 10px;
     margin-right: 2px;
+    transform: translate(10px,21px);
 }
 .ideditor[dir='rtl'] .photoviewer {
     margin-right: 10px;
     margin-left: 2px;
+    transform: translate(10px,21px);
 }
 
 @media screen and (min-width: 1600px) {
