@@ -149,8 +149,6 @@ li.list-item-photos.active:after {
 }
 .viewfield-group.highlighted circle {
     stroke: #222;
-    /* stroke-opacity: 0.9; */
-    /* fill-opacity: 0.9; */
 }
 .viewfield-group.highlighted.hovered circle {
     stroke: #222;
@@ -170,10 +168,6 @@ li.list-item-photos.active:after {
     stroke: #222;
     fill-opacity: 0.4;
 }
- /* .viewfield-group.highlighted .viewfield {
-    stroke-width: 1;
-    fill-opacity: 0.8;
-}  */
 .viewfield-group.highlighted.hovered .viewfield {
     stroke-width: 1;
     fill-opacity: 0.8;
