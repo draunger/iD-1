@@ -2664,7 +2664,7 @@ button.raw-tag-option svg.icon {
     white-space: pre;
 }
 .tag-text::-webkit-scrollbar-thumb:hover { 
-    cursor: pointer; /* Change mouse pointer to a hand */
+    cursor: auto;
 }
 
 .tag-text,
