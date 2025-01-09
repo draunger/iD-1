@@ -243,7 +243,8 @@ export function uiFeatureList(context) {
             return result;
         }
 
-
+        var highlight_after_mouseout = false;
+        var id_on_mouseover =-1;
         function drawList() {
             var value = search.property('value');
             var results = features();
@@ -279,6 +280,10 @@ export function uiFeatureList(context) {
                   .call(t.append('geocoder.search'));
             }
 
+            if((!value || !results.length) && highlight_after_mouseout  && id_on_mouseover!=-1){
+                utilHighlightEntities([id_on_mouseover], false, context);
+                }
+                
             list.selectAll('.no-results-item')
                 .style('display', (value.length && !results.length) ? 'block' : 'none');
 
@@ -335,14 +340,15 @@ export function uiFeatureList(context) {
 
         function mouseover(d3_event, d) {
             if (d.id === -1) return;
-
+            highlight_after_mouseout=true;
+            id_on_mouseover =d.id;
             utilHighlightEntities([d.id], true, context);
         }
 
 
         function mouseout(d3_event, d) {
             if (d.id === -1) return;
-
+            highlight_after_mouseout=false;
             utilHighlightEntities([d.id], false, context);
         }
 
