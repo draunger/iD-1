@@ -280,10 +280,9 @@ export function uiFeatureList(context) {
                   .call(t.append('geocoder.search'));
             }
 
-            if((!value || !results.length) && highlight_after_mouseout  && id_on_mouseover!=-1){
+            if ((!value || !results.length) && highlight_after_mouseout  && id_on_mouseover !== -1) {
                 utilHighlightEntities([id_on_mouseover], false, context);
-                }
-                
+            }    
             list.selectAll('.no-results-item')
                 .style('display', (value.length && !results.length) ? 'block' : 'none');
 
