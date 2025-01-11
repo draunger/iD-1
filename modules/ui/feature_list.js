@@ -243,8 +243,8 @@ export function uiFeatureList(context) {
             return result;
         }
 
-        var highlight_after_mouseout = false;
-        var id_on_mouseover =-1;
+        var highlightAfterMouseout = false;
+        let idOnMouseover = new Set();
         function drawList() {
             var value = search.property('value');
             var results = features();
@@ -279,9 +279,10 @@ export function uiFeatureList(context) {
                   .attr('class', 'entity-name')
                   .call(t.append('geocoder.search'));
             }
-
-            if ((!value || !results.length) && highlight_after_mouseout  && id_on_mouseover !== -1) {
-                utilHighlightEntities([id_on_mouseover], false, context);
+            if (highlightAfterMouseout) {
+                idOnMouseover.forEach((value) => {
+                utilHighlightEntities([value], false, context); 
+                });
             }    
             list.selectAll('.no-results-item')
                 .style('display', (value.length && !results.length) ? 'block' : 'none');
@@ -339,15 +340,15 @@ export function uiFeatureList(context) {
 
         function mouseover(d3_event, d) {
             if (d.id === -1) return;
-            highlight_after_mouseout=true;
-            id_on_mouseover =d.id;
+            highlightAfterMouseout=true;
+            idOnMouseover.add(d.id);
             utilHighlightEntities([d.id], true, context);
         }
 
 
         function mouseout(d3_event, d) {
             if (d.id === -1) return;
-            highlight_after_mouseout=false;
+            highlightAfterMouseout=false;
             utilHighlightEntities([d.id], false, context);
         }
 
