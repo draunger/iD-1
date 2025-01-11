@@ -340,7 +340,7 @@ export function uiFeatureList(context) {
 
         function mouseover(d3_event, d) {
             if (d.id === -1) return;
-            highlightAfterMouseout=true;
+            highlightAfterMouseout = true;
             idOnMouseover.add(d.id);
             utilHighlightEntities([d.id], true, context);
         }
@@ -348,7 +348,7 @@ export function uiFeatureList(context) {
 
         function mouseout(d3_event, d) {
             if (d.id === -1) return;
-            highlightAfterMouseout=false;
+            highlightAfterMouseout = false;
             utilHighlightEntities([d.id], false, context);
         }
 
