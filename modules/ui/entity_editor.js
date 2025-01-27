@@ -59,7 +59,6 @@ export function uiEntityEditor(context) {
 
         headerEnter
             .append('h2');
-
         // Update
         header = header
             .merge(headerEnter);
@@ -69,9 +68,11 @@ export function uiEntityEditor(context) {
             .call(_entityIDs.length === 1 ? t.append('inspector.edit') : t.append('inspector.edit_features'));
 
         header.selectAll('.preset-reset')
-            .on('click', function() {
-                dispatch.call('choose', this, _activePresets);
-            });
+        .on('click', function() { 
+            context.triggeredByPresetReset = true;
+            context.enter(modeBrowse(context)); 
+        })
+
 
         // Body
         var body = selection.selectAll('.inspector-body')

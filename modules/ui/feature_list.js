@@ -242,14 +242,37 @@ export function uiFeatureList(context) {
 
             return result;
         }
-
-
-        function drawList() {
-            var value = search.property('value');
-            var results = features();
-
+        let emptyArray = [];
+      function drawList() {
+        var value = search.property('value');
+        var results = features();
+            
+            // Only store results if not triggered by back button
+            if (!context.triggeredByPresetReset) {
+                emptyArray.push({results: results, searchValue: value});
+            }
+            
+            // Use stored results only when back button was pressed
+            if (context.triggeredByPresetReset) {
+                context.triggeredByPresetReset = false;
+                let maxLength = 0;
+                let maxIndex = -1; 
+                emptyArray.forEach((item, index) => {
+                    if (item.results.length > maxLength) {
+                        maxLength = item.results.length;
+                        maxIndex = index;
+                    }
+                });
+                if (maxIndex !== -1) {
+                    results = emptyArray[maxIndex].results;
+                    search.property('value', emptyArray[maxIndex].searchValue);
+                }
+                // Clear the array after using it
+                emptyArray = [];
+            }
+            
             list.classed('filtered', value.length);
-
+            
             var resultsIndicator = list.selectAll('.no-results-item')
                 .data([0])
                 .enter()

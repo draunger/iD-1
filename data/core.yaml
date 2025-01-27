@@ -734,7 +734,7 @@ en:
     hidden_preset:
       manual: "{features} are hidden. Enable them in the Map Data pane."
       zoom: "{features} are hidden. Zoom in to enable them."
-    back_tooltip: Change feature type
+    back_tooltip: Back to search results
     remove: Remove
     search: Search
     unknown: Unknown
