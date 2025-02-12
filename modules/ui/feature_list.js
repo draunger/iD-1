@@ -48,6 +48,7 @@ export function uiFeatureList(context) {
             .append('input')
             .attr('placeholder', t('inspector.search'))
             .attr('type', 'search')
+            .attr('autocomplete', 'on')
             .call(utilNoAuto)
             .on('keypress', keypress)
             .on('keydown', keydown)
@@ -350,6 +351,52 @@ export function uiFeatureList(context) {
         function click(d3_event, d) {
             d3_event.preventDefault();
 
+            var currentSearchValue = search.property('value').trim();
+
+            // Save the current search value when any result is clicked
+            if (currentSearchValue) {
+                var clicks = JSON.parse(localStorage.getItem('iD-feature-clicks') || '[]');
+                
+                // Remove the item if it already exists to avoid duplicates
+                clicks = clicks.filter(function(item) {
+                    return item !== currentSearchValue;
+                });
+
+                // Always add the new item at the beginning
+                clicks.unshift(currentSearchValue);
+
+                // If list exceeds 10, remove the last item
+                if (clicks.length > 10) {
+                    clicks.pop();
+                }
+
+                // Save to localStorage
+                localStorage.setItem('iD-feature-clicks', JSON.stringify(clicks));
+
+                // Create or update datalist with clicked items
+                function updateClickedDatalist() {
+                    // Remove existing datalist
+                    selection.selectAll('#feature-clicked-datalist').remove();
+
+                    // Create datalist
+                    var datalist = selection.append('datalist')
+                        .attr('id', 'feature-clicked-datalist');
+
+                    // Add clicked items to datalist
+                    clicks.forEach(function(clickText) {
+                        datalist.append('option')
+                            .attr('value', clickText);
+                    });
+
+                    // Link datalist to search input
+                    search.attr('list', 'feature-clicked-datalist')
+                        .attr('autocomplete', 'on');
+                }
+
+                // Call update function
+                updateClickedDatalist();
+            }
+
             if (d.location) {
                 context.map().centerZoomEase([d.location[1], d.location[0]], 19);
 
@@ -379,6 +426,35 @@ export function uiFeatureList(context) {
                 drawList();
             });
         }
+
+        function updateClickedDatalist() {
+            // Retrieve clicked items from localStorage
+            var clicks = JSON.parse(localStorage.getItem('iD-feature-clicks') || '[]');
+
+            // Remove existing datalist
+            selection.selectAll('#feature-clicked-datalist').remove();
+
+            // Only create datalist if there are items
+            if (clicks.length > 0) {
+                // Create datalist
+                var datalist = selection.append('datalist')
+                    .attr('id', 'feature-clicked-datalist');
+
+                // Add clicked items to datalist
+                clicks.forEach(function(clickText) {
+                    datalist.append('option')
+                        .attr('value', clickText);
+                });
+
+                // Link datalist to search input
+                search
+                    .attr('list', 'feature-clicked-datalist')
+                    .attr('autocomplete', 'on');
+            }
+        }
+
+        // Call updateClickedDatalist during initialization
+        updateClickedDatalist();
     }
 
 
